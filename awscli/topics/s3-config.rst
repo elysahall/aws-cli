@@ -5,7 +5,7 @@
 
 The ``aws s3`` transfer commands, which include the ``cp``, ``sync``, ``mv``,
 and ``rm`` commands, have additional configuration values you can use to
-control S3 transfers.  This topic guide discusses these parameters as well as
+control S3 transfers. This topic guide discusses these parameters as well as
 best practices and guidelines for setting these values.
 
 Before discussing the specifics of these values, note that these values are
@@ -28,7 +28,7 @@ command set:
   transfers of individual files.
 * ``multipart_chunksize`` - When using multipart transfers, this is the chunk
   size that the CLI uses for multipart transfers of individual files.
-* ``max_bandwidth`` - The maximum bandwidth that will be consumed for uploading
+* ``max_bandwidth`` - The maximum bandwidth that is consumed for uploading
   and downloading data to and from Amazon S3.
 
 
@@ -106,8 +106,8 @@ You may need to change this value for a few reasons:
 
 * Decreasing this value - On some environments, the default of 10 concurrent
   requests can overwhelm a system.  This may cause connection timeouts or
-  slow the responsiveness of the system.  Lowering this value will make the
-  S3 transfer commands less resource intensive.  The tradeoff is that
+  slow the responsiveness of the system. Lowering this value has the
+  S3 transfer commands use fewer resources. The tradeoff is that
   S3 transfers may take longer to complete. Lowering this value may be
   necessary if using a tool such as ``trickle`` to limit bandwidth.
 * Increasing this value - In some scenarios, you may want the S3 transfers
@@ -132,14 +132,14 @@ much faster than the rate at which consumers are executing tasks.  To avoid
 unbounded growth, the task queue size is capped to a specific size.  This
 configuration value changes the value of that maximum number.
 
-You generally will not need to change this value.  This value also corresponds
+You generally don't need to change this value.  This value also corresponds
 to the number of tasks we are aware of that need to be executed.  This means
 that by default we can only see 1000 tasks ahead.  Until the S3 command knows
-the total number of tasks executed, the progress line will show a total of
-``...``.  Increasing this value means that we will be able to more quickly know
+the total number of tasks executed, the progress line shows a total of
+``...``.  Increasing this value means that we are able to more quickly know
 the total number of tasks needed, assuming that the enqueuing rate is quicker
-than the rate of task consumption.  The tradeoff is that a larger max queue
-size will require more memory.
+than the rate of task consumption. The tradeoff is that a larger max queue
+size requires more memory.
 
 
 multipart_threshold
@@ -148,8 +148,8 @@ multipart_threshold
 **Default** - ``8MB``
 
 When uploading, downloading, or copying a file, the S3 commands
-will switch to multipart operations if the file reaches a given
-size threshold.  The ``multipart_threshold`` controls this value.
+ switch to multipart operations if the file reaches a given
+size threshold. The ``multipart_threshold`` controls this value.
 You can specify this value in one of two ways:
 
 * The file size in bytes.  For example, ``1048576``.
@@ -179,7 +179,7 @@ max_bandwidth
 
 **Default** - None
 
-This controls the maximum bandwidth that the S3 commands will
+This controls the maximum bandwidth that the S3 commands 
 utilize when streaming content data to and from S3. Thus, this value only
 applies for uploads and downloads. It does not apply to copies nor deletes
 because those data transfers take place server side. The value is
@@ -206,12 +206,12 @@ use_accelerate_endpoint
 
 **Default** - ``false``
 
-If set to ``true``, will direct all Amazon S3 requests to the S3 Accelerate
+If set to ``true``, directs all Amazon S3 requests to the S3 Accelerate
 endpoint: ``s3-accelerate.amazonaws.com``. To use this endpoint, your bucket
-must be enabled to use S3 Accelerate. All request will be sent using the
+must be enabled to use S3 Accelerate. All requests are sent using the
 virtual style of bucket addressing: ``my-bucket.s3-accelerate.amazonaws.com``.
-Any ``ListBuckets``, ``CreateBucket``, and ``DeleteBucket`` requests will not
-be sent to the Accelerate endpoint as the endpoint does not support those
+Any ``ListBuckets``, ``CreateBucket``, and ``DeleteBucket`` requests are not
+ sent to the Accelerate endpoint as the endpoint does not support those
 operations. This behavior can also be set if ``--endpoint-url`` parameter
 is set to ``https://s3-accelerate.amazonaws.com`` or
 ``http://s3-accelerate.amazonaws.com`` for any ``s3`` or ``s3api`` command. This
@@ -223,7 +223,7 @@ use_dualstack_endpoint
 
 **Default** - ``false``
 
-If set to ``true``, will direct all Amazon S3 requests to the dual IPv4 / IPv6
+If set to ``true``, directs all Amazon S3 requests to the dual IPv4 / IPv6
 endpoint for the configured region. This option is mutually exclusive with
 the ``use_accelerate_endpoint`` option.
 
@@ -238,11 +238,11 @@ the bucket included as part of the hostname.  This corresponds to the
 addressing style of ``virtual``.  The second is with the bucket included
 as part of the path of the URI, corresponding to the addressing style
 of ``path``.  The default value in the CLI is to use ``auto``, which
-will attempt to use ``virtual`` where possible, but will fall back to
-``path`` style if necessary.  For example, if your bucket name is not
+ attempts to use ``virtual`` where possible, but falls back to
+``path`` style if necessary. For example, if your bucket name is not
 DNS compatible, the bucket name cannot be part of the hostname and
-must be in the path.  With ``auto``, the CLI will detect this condition
-and automatically switch to ``path`` style for you.  If you set the
+must be in the path. With ``auto``, the CLI detects this condition
+and automatically switch to ``path`` style for you. If you set the
 addressing style to ``path``, you must ensure that the AWS region you
 configured in the AWS CLI matches the same region of your bucket.
 
@@ -250,10 +250,10 @@ configured in the AWS CLI matches the same region of your bucket.
 payload_signing_enabled
 -----------------------
 
-If set to ``true``, s3 payloads will receive additional content validation in
+If set to ``true``, s3 payloads receive additional content validation in
 the form of a SHA256 checksum which will be calculated for you and included in
-the request signature. If set to ``false``, the checksum will not be calculated.
-Disabling this can be useful to save the performance overhead that the
+the request signature. If set to ``false``, the checksum is not calculated.
+Disabling this can save the performance overhead that the
 checksum calculation would otherwise cause.
 
 By default, this is disabled for streaming uploads (UploadPart and PutObject),

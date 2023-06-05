@@ -59,7 +59,7 @@ SUMMARIZE = {'name': 'summarize', 'action': 'store_true',
 DRYRUN = {'name': 'dryrun', 'action': 'store_true',
           'help_text': (
               "Displays the operations that would be performed using the "
-              "specified command without actually running them.")}
+              "specified command without actually running the command.")}
 
 
 QUIET = {'name': 'quiet', 'action': 'store_true',
@@ -72,7 +72,7 @@ FORCE = {'name': 'force', 'action': 'store_true',
          'help_text': (
              "Deletes all objects in the bucket including the bucket itself. "
              "Note that versioned objects will not be deleted in this "
-             "process which would cause the bucket deletion to fail because "
+             "process. Versioned objects cause the bucket deletion to fail because "
              "the bucket would not be empty. To delete versioned "
              "objects use the ``s3api delete-object`` command with "
              "the ``--version-id`` parameter.")}
@@ -99,7 +99,7 @@ NO_GUESS_MIME_TYPE = {'name': 'no-guess-mime-type', 'action': 'store_false',
                       'dest': 'guess_mime_type', 'default': True,
                       'help_text': (
                           "Do not try to guess the mime type for "
-                          "uploaded files.  By default the mime type of a "
+                          "uploaded files. By default the mime type of a "
                           "file is guessed when it is uploaded.")}
 
 
@@ -113,13 +113,16 @@ EXCLUDE = {'name': 'exclude', 'action': AppendFilter, 'nargs': 1,
            'dest': 'filters',
            'help_text': (
                "Exclude all files or objects from the command that matches "
-               "the specified pattern.")}
+               "the specified pattern."
+               'See <a href="http://docs.aws.amazon.com/cli/latest/reference'
+               '/s3/index.html#use-of-exclude-and-include-filters">Use of '
+               'Exclude and Include Filters</a> for details.')}
 
 
 INCLUDE = {'name': 'include', 'action': AppendFilter, 'nargs': 1,
            'dest': 'filters',
            'help_text': (
-               "Don't exclude files or objects "
+               "Include files or objects "
                "in the command that match the specified pattern. "
                'See <a href="http://docs.aws.amazon.com/cli/latest/reference'
                '/s3/index.html#use-of-exclude-and-include-filters">Use of '
@@ -132,7 +135,7 @@ ACL = {'name': 'acl',
                    'bucket-owner-full-control', 'log-delivery-write'],
        'help_text': (
            "Sets the ACL for the object when the command is "
-           "performed.  If you use this parameter you must have the "
+           "performed. If you use this parameter you must have the "
            '"s3:PutObjectAcl" permission included in the list of actions '
            "for your IAM policy. "
            "Only accepts values of ``private``, ``public-read``, "
@@ -660,7 +663,9 @@ class PresignCommand(S3Command):
                   'cli_type_name': 'integer',
                   'help_text': (
                       'Number of seconds until the pre-signed '
-                      'URL expires.  Default is 3600 seconds.')}]
+                      'URL expires.  Default is 3600 seconds.'
+                      'If you use temporary credentials the presigned'
+                      ' URL will expire when the credentials do.')}]
 
     def _run_main(self, parsed_args, parsed_globals):
         super(PresignCommand, self)._run_main(parsed_args, parsed_globals)
@@ -756,7 +761,12 @@ class SyncCommand(S3TransferCommand):
     DESCRIPTION = "Syncs directories and S3 prefixes. Recursively copies " \
                   "new and updated files from the source directory to " \
                   "the destination. Only creates folders in the destination " \
-                  "if they contain one or more files."
+                  "if they contain one or more files." \
+                  "An S3 object will copy over during a sync if the sizes of " \
+                  "the two S3 objects differ, the last modified time of the " \
+                  "source is newer than the last modified time of the destination, " \
+                  "or the S3 object does not exist under the specified bucket" \
+                  " and prefix destination."
     USAGE = "<LocalPath> <S3Uri> or <S3Uri> " \
             "<LocalPath> or <S3Uri> <S3Uri>"
     ARG_TABLE = [{'name': 'paths', 'nargs': 2, 'positional_arg': True,

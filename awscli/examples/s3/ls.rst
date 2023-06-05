@@ -1,6 +1,6 @@
 **Example 1: Listing all user owned buckets**
 
-The following ``ls`` command lists all of the bucket owned by the user.  In this example, the user owns the buckets ``mybucket`` and ``mybucket2``.  The timestamp is the date the bucket was created, shown in your machine's time zone.  This date can change when making changes to your bucket, such as editing its bucket policy.  Note if  ``s3://`` is used for the path argument ``<S3Uri>``, it will list all of the buckets as well::
+The following ``ls`` command example lists all of the buckets owned by the user. In this example, the user owns the buckets ``mybucket`` and ``mybucket2``. The timestamp is the date the bucket was created, shown in your machine's time zone. This date can change when making changes to your bucket, such as editing its bucket policy. ::
 
     aws s3 ls
 
@@ -8,12 +8,30 @@ Output::
 
     2013-07-11 17:08:50 mybucket
     2013-07-24 14:55:44 mybucket2
-    
+
+You can also use ``s3://`` for the ``<S3Uri>`` path argument to list all buckets. ::
+
+    aws s3 ls s3://
+
+Output::
+
+    2013-07-11 17:08:50 mybucket
+    2013-07-24 14:55:44 mybucket2
+
 **Example 2: Listing all prefixes and objects in a bucket**
 
-The following ``ls`` command lists objects and common prefixes under a specified bucket and prefix.  In this example, the user owns the bucket ``mybucket`` with the objects ``test.txt`` and ``somePrefix/test.txt``.  The ``LastWriteTime`` and ``Length`` are arbitrary. Note that since the ``ls`` command has no interaction with the local filesystem, the ``s3://`` URI scheme is not required to resolve ambiguity and may be omitted::
+The following ``ls`` command example lists objects and common prefixes under the ``mybucket`` bucket. In this example, ``mybucket`` contains objects ``test.txt`` and ``somePrefix/test.txt``. The ``LastWriteTime`` and ``Length`` are arbitrary. ::
 
     aws s3 ls s3://mybucket
+
+Output::
+
+                               PRE somePrefix/
+    2013-07-25 17:06:27         88 test.txt
+
+Since the ``ls`` command has no interaction with the local filesystem, the ``s3://`` URI scheme is not required andcan be omitted. ::
+
+    aws s3 ls mybucket
 
 Output::
 
