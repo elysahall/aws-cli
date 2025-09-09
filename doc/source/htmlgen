@@ -3,6 +3,7 @@ import argparse
 import json
 import os
 import sys
+import re
 
 import awscli.clidriver
 from awscli.help import PagingHelpRenderer
@@ -127,6 +128,92 @@ def build_service_list(tut_path, ref_path, driver):
     fp.close()
 
 
+
+def get_rst_cleanup_rules():
+    """Define RST cleanup rules. Add new patterns here as needed."""
+    def clean_link_title(match):
+        title = match.group(1)
+        url = match.group(2)
+        
+        # Only clean formatting within the title
+        title = re.sub(r'``([^`]+)``', r'\1', title)
+        title = re.sub(r'\*\*([^*]+)\*\*', r'\1', title)
+        title = re.sub(r'\*([^*]+)\*', r'\1', title)
+        title = title.strip()
+        
+        return f'`{title} <{url}>`__'
+    
+    def fix_missing_brackets(match):
+        title = match.group(1).strip()
+        url = match.group(2)
+        
+        # Clean formatting from title
+        title = re.sub(r'``([^`]+)``', r'\1', title)
+        title = re.sub(r'\*\*([^*]+)\*\*', r'\1', title)
+        title = re.sub(r'\*([^*]+)\*', r'\1', title)
+        
+        return f'`{title} <{url}>`__'
+    
+    return [
+        {
+            'name': 'fix_links_missing_brackets',
+            'pattern': re.compile(r'`([^`]*?)\s+(https?://[^\s`]+)`__'),
+            'replacement': fix_missing_brackets,
+            'description': 'Link formatting - Add missing angle brackets and clean formatting'
+        },
+        {
+            'name': 'clean_existing_links',
+            'pattern': re.compile(r'`([^<>`]*(?:``[^`]*``|\*\*[^*]*\*\*|\*[^*]*\*)[^<>`]*) <([^>]+)>`__'),
+            'replacement': clean_link_title,
+            'description': 'Link formatting - Clean formatting'
+        },
+    ]
+
+def post_process_rst():
+    """Apply cleanup rules to all generated RST files."""
+    cleanup_rules = get_rst_cleanup_rules()
+    files_processed = 0
+    files_modified = 0
+    debug_samples = []
+    
+    print('Post-processing RST files...')
+    
+    for root, dirs, files in os.walk('.'):
+        for file in files:
+            if file.endswith('.rst'):
+                file_path = os.path.join(root, file)
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                    
+                    files_processed += 1
+                    
+
+                    original_content = content
+                    
+                    # Apply all cleanup rules
+                    for rule in cleanup_rules:
+                        matches = rule['pattern'].findall(content)
+                        if matches:
+                            print(f"Rule '{rule['name']}' found {len(matches)} matches in {file_path}: {matches[:1]}")
+                        new_content = rule['pattern'].sub(rule['replacement'], content)
+                        if new_content != content:
+                            print(f"Rule '{rule['name']}' APPLIED changes in {file_path}")
+                        content = new_content
+                    
+                    # Only write if changed
+                    if content != original_content:
+                        print(f"WRITING changes to {file_path}")
+                        with open(file_path, 'w', encoding='utf-8') as f:
+                            f.write(content)
+                        files_modified += 1
+                            
+                except (UnicodeDecodeError, IOError):
+                    continue
+    
+    print(f'RST post-processing complete. {files_modified}/{files_processed} files modified.')
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -150,4 +237,6 @@ if __name__ == '__main__':
     do_provider(driver)
     print('Generating service list ReST document...')
     build_service_list(TUT_PATH, REF_PATH, driver)
+    print('Performing post-processing for format cleanup on ReST documentation...')
+    post_process_rst()
     print('Done!')
