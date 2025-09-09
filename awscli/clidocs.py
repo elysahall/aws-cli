@@ -124,6 +124,10 @@ class CLIDocumentEventHandler:
             reference = 'aws ' + reference
         doc.writeln(f'.. _cli:{reference}:')
         doc.style.h1(help_command.name)
+        doc.writeln('.. contents:: Topics')
+        doc.writeln('  :depth: 2')
+        doc.writeln('  :local:')
+        doc.style.new_paragraph()
 
     def doc_description(self, help_command, **kwargs):
         doc = help_command.doc
@@ -192,7 +196,8 @@ class CLIDocumentEventHandler:
         argument_type_name = self._get_argument_type_name(
             argument.argument_model, argument.cli_type_name
         )
-        doc.write(f'{name} ({argument_type_name})\n')
+        type_link = f'`{argument_type_name} <https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-{argument_type_name.lower()}>`__'
+        doc.write(f'{name} ({type_link})\n')
         doc.style.indent()
         doc.include_doc_string(argument.documentation)
         if is_streaming_blob_type(argument.argument_model):

@@ -43,7 +43,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="guide-name" content="API Reference">
   <meta name="service-name" content="AWS CLI">
-  <link rel="stylesheet" type="text/css" href="{{ pathto('_static/bootstrap-responsive.min.css', 1) }}" />
   {% if theme_touch_icon %}
   <link rel="apple-touch-icon" href="{{ pathto('_static/' ~ theme_touch_icon, 1) }}" />
   {% endif %}
@@ -67,6 +66,9 @@
                   title="GitHub button showing the number of project stars."></iframe>
         </div>
         {%- endif %}
+        <div class="pull-right">
+          {% include "searchbox.html" %}
+        </div>
       </div>
     </div>
   </div>
@@ -90,10 +92,10 @@
           {%- block sidebar1 %}{{ sidebar() }}{% endblock %}
           {%- block document %}
             <div class="body">
-                <div class="well">
+                <div class="note">
+                  <h3 style="margin-top: 0px;">Note:</h3>
                     <p>
-                        <h3 style="margin-top: 0px;">Note:</h3>
-                        You are viewing the documentation for an older major version of the AWS CLI (version 1).
+                      You are viewing the documentation for an older major version of the AWS CLI (version 1).
                     </p>
                     <p>
                         AWS CLI version 2, the latest major version of AWS CLI, is now stable and recommended for general use.

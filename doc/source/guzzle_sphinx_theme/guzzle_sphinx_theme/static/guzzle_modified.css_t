@@ -2,14 +2,13 @@
 -------------------------------------------------- */
 
 .container {
-  margin: 0 30px 0 30px;
-  width: auto;
+  max-width: 960px;
 }
 
 body {
   position: relative;
   padding: 40px 0 0 0;
-  font-family: Amazon Ember, Helvetica, arial, freesans, clean, sans-serif;
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
 }
 
 div.clearer {
@@ -23,8 +22,8 @@ div.document {
 }
 
 .body {
-  margin-left: 230px;
-  float: none;
+  width: 74%;
+  float: right;
   word-wrap: break-word;
 }
 
@@ -68,7 +67,7 @@ div.body h3,
 div.body h4,
 div.body h5,
 div.body h6 {
-  font-family: Amazon Ember, Helvetica, arial, freesans, clean, sans-serif;
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
   font-weight: normal;
   margin: 30px 0px 10px 0px;
   padding: 0;
@@ -110,15 +109,6 @@ div.highlight {
 
 .navbar .brand {
   font-weight: bold;
-}
-
-.navbar .nav-release {
-    float: none;
-    padding: 10px 15px 10px;
-    color: #777;
-    text-decoration: none;
-    text-shadow: 0 1px 0 #fff;
-    font-weight: bold;
 }
 
 .navbar .nav .nav-link {
@@ -166,15 +156,8 @@ div.sphinxsidebar {
   line-height: 1.5;
   float: left;
   width: 200px;
-  padding-right: 10px;
+  padding: 0;
   word-wrap: break-word;
-  border-right: 1px solid #e3e3e3;
-  position: fixed;
-  height: -webkit-calc(100% - 100px);
-  height: -moz-calc(100% - 100px);
-  height: calc(100% - 100px);
-  overflow-y: auto;
-
 }
 
 div.sphinxsidebarwrapper p.logo {
@@ -184,9 +167,9 @@ div.sphinxsidebarwrapper p.logo {
 
 div.sphinxsidebar h3,
 div.sphinxsidebar h4 {
-  font-family: Amazon Ember, Helvetica, arial, freesans, clean, sans-serif;
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
   color: #444;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: normal;
   margin: 0 0 5px 0;
   padding: 0;
@@ -235,16 +218,12 @@ div.sphinxsidebar ul ul {
 
 div.sphinxsidebar input {
   border: 1px solid #6C6C6C;
-  font-family: Amazon Ember, Helvetica, arial, freesans, clean, sans-serif;
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
   font-size: 1em;
 }
 
 .margin-top-1em {
   margin-top: 1em;
-}
-
-.form-search {
-  margin: 5px 5px 0 0 ;
 }
 
 /* Two-pane table list
@@ -303,7 +282,6 @@ table.two-column {
   border-top: 1px solid #ccc;
   padding-top: 12px;
   margin-top: 30px;
-  margin-left: 230px;
 }
 
 .rel-spacer {
@@ -488,11 +466,11 @@ p.topic-title {
 /* -- admonitions ----------------------------------------------------------- */
 
 div.admonition {
+  background: #fafafa;
   margin: 20px 0;
   padding: 10px 30px;
-  border-top: 1px solid rgba(223, 51, 18, .35);
-  border-bottom: 1px solid rgba(223, 51, 18, .35);
-  background-color: hsla(10, 75%, 97%, .8);
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
 }
 
 div.admonition dt {
@@ -527,12 +505,9 @@ div.admonition p.last {
 }
 
 div.note {
-  min-height: 20px;
-  padding: 19px;
-  margin-bottom: 20px;
-  background-color: rgba(241, 250, 255, .8);
-  border: 2px solid rgba(0, 115, 187, .35);
-  border-radius: var(--border-radius-alert-ucuq5b, 5px);
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  border-radius: 3px;
 }
 
 div.body h3.admonition-title {
@@ -542,7 +517,6 @@ div.body h3.admonition-title {
 div.body h3.admonition-title:after {
   content: ":";
 }
-
 
 /* -- other body styles ----------------------------------------------------- */
 
@@ -693,25 +667,6 @@ div.viewcode-block:target {
   padding: 0 10px;
 }
 
-
-
-
-  div.navbar-inner {
-    box-shadow: none !important;
-    -webkit-box-shadow: none !important;
-    background-image: none;
-    padding: 5px 0 5px 0;
-  }
-
-  #synopsis div.highlight {
-    width: max-content;
-  }
-  
-  #topics {
-    border: none;
-    background: none;
-  }
-
 /* -- math display ---------------------------------------------------------- */
 
 img.math {
@@ -738,7 +693,6 @@ span.eqno {
   height: 250px;
 }
 
-
 /* Small screen styles
 -------------------------------------------------- */
 
@@ -754,12 +708,11 @@ span.eqno {
     float: none;
     min-height: 0;
     padding: 10px;
-    margin: 0px;
+    margin-top: 20px;
   }
 
   .navbar-fixed-top {
     position: static;
-    box-shadow: none;
   }
 
   div.sphinxsidebar {

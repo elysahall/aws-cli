@@ -27,7 +27,10 @@ import bootstrapdocs
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = []
+extensions = [
+    'sphinx_copybutton',
+    'sphinxcontrib.fulltoc',
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -111,7 +114,7 @@ language = 'en'
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-html_title = "AWS CLI %s Command Reference" % release
+html_title = "AWS CLI %s Reference Guide" % release
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None
@@ -130,6 +133,7 @@ html_title = "AWS CLI %s Command Reference" % release
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
 #html_last_updated_fmt = '%b %d, %Y'
@@ -141,8 +145,8 @@ html_static_path = ['_static']
 # Custom sidebar templates, maps document names to template names.
 html_sidebars = {
   '**': ['sidebarlogo.html',
-         'localtoc.html',
          'searchbox.html',
+         'localtoc.html',
          'feedback.html',
          'userguide.html']
 }
@@ -191,7 +195,7 @@ extensions.append("guzzle_sphinx_theme")
 
 html_theme_options = {
     # Set the name of the project to appear in the nav menu
-    "project_nav_name": "AWS CLI Command Reference",
+    "project_nav_name": "AWS CLI Reference Guide",
     # Set your GitHub user and repo to enable GitHub stars links
     "github_user": "aws",
     "github_repo": "aws-cli",
