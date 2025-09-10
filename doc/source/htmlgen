@@ -135,7 +135,7 @@ def get_rst_cleanup_rules():
         title = match.group(1)
         url = match.group(2)
         
-        # Only clean formatting within the title
+        # Only clean formatting within link title
         title = re.sub(r'``([^`]+)``', r'\1', title)
         title = re.sub(r'\*\*([^*]+)\*\*', r'\1', title)
         title = re.sub(r'\*([^*]+)\*', r'\1', title)
@@ -178,7 +178,7 @@ def post_process_rst():
     
     print('Post-processing RST files...')
     
-    for root, dirs, files in os.walk('.'):
+    for root, dirs, files in os.walk('reference'):
         for file in files:
             if file.endswith('.rst'):
                 file_path = os.path.join(root, file)
@@ -187,23 +187,21 @@ def post_process_rst():
                         content = f.read()
                     
                     files_processed += 1
-                    
-
                     original_content = content
                     
                     # Apply all cleanup rules
                     for rule in cleanup_rules:
                         matches = rule['pattern'].findall(content)
                         if matches:
-                            print(f"Rule '{rule['name']}' found {len(matches)} matches in {file_path}: {matches[:1]}")
+                            # print(f"Rule '{rule['name']}' found {len(matches)} matches in {file_path}: {matches[:1]}")
                         new_content = rule['pattern'].sub(rule['replacement'], content)
-                        if new_content != content:
-                            print(f"Rule '{rule['name']}' APPLIED changes in {file_path}")
+                        # if new_content != content:
+                        #     print(f"Rule '{rule['name']}' APPLIED changes in {file_path}")
                         content = new_content
                     
                     # Only write if changed
                     if content != original_content:
-                        print(f"WRITING changes to {file_path}")
+                        # print(f"WRITING changes to {file_path}")
                         with open(file_path, 'w', encoding='utf-8') as f:
                             f.write(content)
                         files_modified += 1
